@@ -4,6 +4,7 @@ import { Loading } from '@components/Loading';
 import { THEME } from './src/theme';
 import { Routes } from './src/routes';
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
+import { Home } from '@screens/Home';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ export default function App() {
         barStyle="light-content"
         translucent
       />
-      {fontsLoaded ? <Routes /> : <Loading />}
+      {fontsLoaded ? <Home /> : <Loading />}
     </NativeBaseProvider>
   );
 }
