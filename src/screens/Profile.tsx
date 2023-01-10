@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { Alert, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { UserPhoto } from "@components/UserPhoto";
 import { ScreenHeader } from "@components/ScreenHeader";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { Center, ScrollView, VStack, Skeleton, Text, Heading } from "native-base";
+import { Center, ScrollView, VStack, Skeleton, Text, Heading, useToast } from "native-base";
 
 const PHOTO_SIZE = 33;
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState<boolean>(false);
   const [userPhoto, setUserPhoto] = useState<string | undefined>('https://github.com/Leandro-R-Vieira.png');
+
+  const toast = useToast();
 
   async function handleUserPhotoSelect() {
     setPhotoIsLoading(true);
@@ -29,7 +31,11 @@ export function Profile() {
         FileSystem.getInfoAsync(photoSelected.assets[0].uri);
 
         if(photoInfo.size && (photoInfo.size / 1024 / 1024) > 5){
-          return Alert.alert('Essa Imagem é muito grande. Escolha uma de até 5MB.')
+          return toast.show({
+            title: 'Essa Imagem é muito grande. Escolha uma de até 5MB.',
+            placement: 'top',
+            bg: 'red.500'
+          });
         }
 
         setUserPhoto(photoSelected.assets[0].uri);
