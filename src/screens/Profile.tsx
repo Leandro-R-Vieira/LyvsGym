@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { UserPhoto } from "@components/UserPhoto";
 import { ScreenHeader } from "@components/ScreenHeader";
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { Center, ScrollView, VStack, Skeleton, Text, Heading } from "native-base";
 
 const PHOTO_SIZE = 33;
@@ -23,8 +24,17 @@ export function Profile() {
         allowsEditing: true
       });
       if (photoSelected.canceled) return;
-      if(photoSelected.assets[0].uri)
-      setUserPhoto(photoSelected.assets[0].uri);
+      if(photoSelected.assets[0].uri){
+        const photoInfo = await 
+        FileSystem.getInfoAsync(photoSelected.assets[0].uri);
+
+        if(photoInfo.size && (photoInfo.size / 1024 / 1024) > 5){
+          return Alert.alert('Essa Imagem é muito grande. Escolha uma de até 5MB.')
+        }
+
+        setUserPhoto(photoSelected.assets[0].uri);
+      }
+      
     } catch (error) {
       console.log(error)
     } finally {
