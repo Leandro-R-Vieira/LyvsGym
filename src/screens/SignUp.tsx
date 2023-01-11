@@ -1,18 +1,21 @@
-import { useNavigation } from '@react-navigation/native';
-import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base';
+import { useForm, Controller } from 'react-hook-form';
 import LogoSvg from '@assets/logo.svg';
-import BackgroundImg from '@assets/background.png';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import BackgroundImg from '@assets/background.png';
+import { useNavigation } from '@react-navigation/native';
+import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base';
 
 
 export function SignUp() {
-
+  const { control } = useForm();
   const navigation = useNavigation();
 
   function handleGoBack() {
     navigation.goBack();
   }
+
+  
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
@@ -38,7 +41,7 @@ export function SignUp() {
           </Heading>
 
           <Input
-            placeholder='Nome'            
+            placeholder='Nome'                       
           />
 
           <Input
@@ -49,6 +52,11 @@ export function SignUp() {
 
           <Input
             placeholder='Senha'
+            secureTextEntry
+          />
+
+          <Input
+            placeholder='Confirmar senha'
             secureTextEntry
           />
 
