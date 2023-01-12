@@ -13,8 +13,8 @@ export function HomeHeader() {
         mr={4}
       />
       <VStack flex={1}>
-        <Text color='gray.100' fontSize='md'>Hi</Text>
-        <Heading color='gray.100' fontSize='md'>Leandro</Heading>
+        <Text color='gray.100' fontSize='md'>Hi,</Text>
+        <Heading color='gray.100' fontSize='md' fontFamily='heading'>Leandro</Heading>
       </VStack>
       <TouchableOpacity>
         <Icon
