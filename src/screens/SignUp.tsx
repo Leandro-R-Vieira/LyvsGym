@@ -59,13 +59,11 @@ export function SignUp() {
                 placeholder='Nome'
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.name?.message}
               />
             )}
           />
-          <Text color='red.500'>
-            {errors.name?.message}
-          </Text>
-
+          
           <Controller
             control={control}
             name='email'
@@ -83,13 +81,11 @@ export function SignUp() {
                 autoCapitalize='none'
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.email?.message}
               />
             )}
           />
-          <Text color='red.500'>
-            {errors.email?.message}
-          </Text>
-
+         
           <Controller
             control={control}
             name='password'
@@ -99,6 +95,7 @@ export function SignUp() {
                 secureTextEntry
                 onChangeText={onChange}
                 value={value}
+
               />
             )}
           />
