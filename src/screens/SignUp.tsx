@@ -32,8 +32,8 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp(data: FormDataProps) {
-    console.log(data);
+  function handleSignUp({name, email, password}: FormDataProps) {
+      
   }
 
   return (
