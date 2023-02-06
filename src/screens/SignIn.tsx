@@ -5,13 +5,23 @@ import BackgroundImg from '@assets/background.png';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
+import { useAuth } from '@hooks/useAuth';
+import { useForm } from 'react-hook-form';
+
 
 export function SignIn() {
+  const { signIn } = useAuth();
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
+  const {control, handleSubmit, formState: {errors}} = useForm<FormData>();
+
   function handleNewAccount() {
     navigation.navigate('signUp');
+  }
+
+  async function handleSignIn({ email, password }: FormData) {
+    await signIn(email, password);
   }
 
   return (
@@ -50,6 +60,7 @@ export function SignIn() {
 
           <Button
             title='Acessar'
+            onPress={handleSubmit(handleSignIn)}
           />
         </Center>
 
