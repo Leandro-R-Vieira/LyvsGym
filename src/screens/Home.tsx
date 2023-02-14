@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
 import { api } from "@services/api";
 import { Group } from "@components/Group";
+import { AppError } from "@utils/AppError";
+import { useCallback, useEffect, useState } from "react";
 import { HomeHeader } from "@components/HomeHeader";
 import { ExerciseCard } from "@components/ExerciseCard";
-import { useNavigation } from "@react-navigation/native";
-import { VStack, FlatList, HStack, Heading, Text, useToast } from "native-base";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { AppError } from "@utils/AppError";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { VStack, FlatList, HStack, Heading, Text, useToast } from "native-base";
 
 
 
 export function Home() {
   const [groupSelected, setGroupSelected] = useState('Costas');
   const [groups, setGroups] = useState<string[]>([]);
-  const [exercises, setExercises] = useState(['1', '2', '3', '4']);
+  const [exercises, setExercises] = useState([]);
 
   const toast = useToast();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -37,9 +37,27 @@ export function Home() {
     }
   }
 
+  async function fetchExercisesByGroup() {
+    try {
+      const response = await api.get(`/exercises/bygroup/${groupSelected}`);
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : 'Não foi possível carregar os exercícios.';
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    }
+  }
+
   useEffect(() => {
     fetchGroups();
   }, []);
+
+  useFocusEffect(useCallback(() => {
+    fetchExercisesByGroup();
+  }, [groupSelected]));
 
   return (
     <VStack flex={1}>
