@@ -1,9 +1,10 @@
 import { api } from "@services/api";
 import { Group } from "@components/Group";
 import { AppError } from "@utils/AppError";
-import { useCallback, useEffect, useState } from "react";
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
 import { HomeHeader } from "@components/HomeHeader";
 import { ExerciseCard } from "@components/ExerciseCard";
+import { useCallback, useEffect, useState } from "react";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { VStack, FlatList, HStack, Heading, Text, useToast } from "native-base";
@@ -13,7 +14,7 @@ import { VStack, FlatList, HStack, Heading, Text, useToast } from "native-base";
 export function Home() {
   const [groupSelected, setGroupSelected] = useState('Costas');
   const [groups, setGroups] = useState<string[]>([]);
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
 
   const toast = useToast();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -40,6 +41,7 @@ export function Home() {
   async function fetchExercisesByGroup() {
     try {
       const response = await api.get(`/exercises/bygroup/${groupSelected}`);
+      setExercises(response.data);
     } catch (error) {
       const isAppError = error instanceof AppError;
       const title = isAppError ? error.message : 'Não foi possível carregar os exercícios.';
@@ -94,7 +96,7 @@ export function Home() {
 
         <FlatList
           data={exercises}
-          keyExtractor={item => item}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <ExerciseCard 
               onPress={handleOpenExerciseDetails}
