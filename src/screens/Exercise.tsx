@@ -11,7 +11,7 @@ import { TouchableOpacity } from "react-native";
 import RepetitionsSvg from '@assets/repetitions.svg';
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Box, HStack, Heading, Icon, Image, ScrollView, Text, VStack, useToast } from "native-base";
+import { Box, HStack, Heading, Icon, Image, Text, VStack, useToast } from "native-base";
 
 type RouteParamsProps = {
   exerciseId: string;
